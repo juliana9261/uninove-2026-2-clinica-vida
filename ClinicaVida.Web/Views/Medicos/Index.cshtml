@@ -1,0 +1,32 @@
+@model IEnumerable<Medico>
+@{
+    ViewData["Title"] = "Corpo clínico";
+    var selecionada = ViewBag.EspecialidadeSelecionada as int?;
+}
+
+<h2>Corpo clínico</h2>
+
+<form method="get" class="d-flex gap-2 mb-3">
+    <select name="especialidadeId" class="form-select w-auto">
+        <option value="">Todas as especialidades</option>
+        @foreach (var e in (List<Especialidade>)ViewBag.Especialidades)
+        {
+            <option value="@e.Id" selected="@(e.Id == selecionada)">@e.Nome</option>
+        }
+    </select>
+    <button type="submit" class="btn btn-primary">Filtrar</button>
+</form>
+
+@if (!Model.Any())
+{
+    <p>Nenhum médico encontrado para esta especialidade.</p>
+}
+else
+{
+    <ul>
+        @foreach (var medico in Model)
+        {
+            <li><a href="/Medicos/Details/@medico.Id">@medico.Nome</a>, CRM @medico.Crm</li>
+        }
+    </ul>
+}
